@@ -1,0 +1,39 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:SIDESA.Net.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="SIDESA.Net.Views.RiwayatView"
+             x:DataType="vm:RiwayatViewModel">
+
+    <Grid RowDefinitions="Auto, *">
+        <StackPanel Grid.Row="0" Margin="20" Orientation="Horizontal" Spacing="10">
+            <TextBlock Text="Riwayat Pembuatan Surat" FontSize="20" FontWeight="Bold" Foreground="#334155" VerticalAlignment="Center"/>
+            <Button Content="Refresh Data" Command="{Binding LoadDataCommand}" Background="#e2e8f0" Foreground="#334155" Padding="15,5" CornerRadius="5"/>
+            <Button Content="Buka Folder Output" Command="{Binding BukaFolderPdfCommand}" Background="#10b981" Foreground="White" Padding="15,5" CornerRadius="5"/>
+        </StackPanel>
+
+        <Border Grid.Row="1" Background="White" CornerRadius="10" Margin="20,0,20,20" Padding="10" BoxShadow="0 2 5 0 #10000000">
+            <DataGrid ItemsSource="{Binding RiwayatList}" SelectedItem="{Binding SelectedRiwayat}" 
+                      AutoGenerateColumns="False" IsReadOnly="True" GridLinesVisibility="All"
+                      BorderThickness="1" BorderBrush="#e2e8f0">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="No. Surat" Binding="{Binding Nomor_Surat}" Width="*" />
+                    <DataGridTextColumn Header="Tanggal" Binding="{Binding Tanggal}" Width="Auto" />
+                    <DataGridTextColumn Header="NIK" Binding="{Binding Nik}" Width="Auto" />
+                    <DataGridTextColumn Header="Nama Penduduk" Binding="{Binding Nama}" Width="*" />
+                    <DataGridTextColumn Header="Jenis Surat" Binding="{Binding Jenis_Surat}" Width="*" />
+                    <DataGridTextColumn Header="Petugas" Binding="{Binding Petugas}" Width="Auto" />
+                    <DataGridTemplateColumn Header="Aksi" Width="Auto">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Lihat PDF" Command="{Binding $parent[UserControl].((vm:RiwayatViewModel)DataContext).BukaFilePdfCommand}" CommandParameter="{Binding}" Background="#3b82f6" Foreground="White" Padding="10,5" CornerRadius="3" Margin="5"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+    </Grid>
+</UserControl>

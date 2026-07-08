@@ -1,0 +1,39 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:SIDESA.Net.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="SIDESA.Net.Views.PendudukView"
+             x:DataType="vm:PendudukViewModel">
+
+    <Border Background="White" CornerRadius="8" Padding="20" Margin="20" BoxShadow="0 4 10 0 #1A000000">
+        <Grid RowDefinitions="Auto, *">
+            <!-- Toolbar -->
+            <Grid Grid.Row="0" ColumnDefinitions="Auto, *, Auto, Auto" Margin="0,0,0,20">
+                <TextBlock Grid.Column="0" Text="Kelola Data Penduduk" FontSize="18" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,20,0"/>
+                
+                <TextBox Grid.Column="1" Text="{Binding SearchQuery}" Watermark="Cari NIK / KK / Nama..." VerticalAlignment="Center" Margin="0,0,20,0" CornerRadius="4">
+                    <TextBox.KeyBindings>
+                        <KeyBinding Gesture="Enter" Command="{Binding SearchCommand}" />
+                    </TextBox.KeyBindings>
+                </TextBox>
+                
+                <Button Grid.Column="2" Content="Tambah Data" Command="{Binding AddNewCommand}" Background="#3b82f6" Foreground="White" FontWeight="SemiBold" CornerRadius="4" Margin="0,0,10,0"/>
+                <Button Grid.Column="3" Content="Hapus Terpilih" Command="{Binding DeleteSelectedCommand}" Background="#ef4444" Foreground="White" FontWeight="SemiBold" CornerRadius="4"/>
+            </Grid>
+            
+            <!-- Data Grid -->
+            <DataGrid Grid.Row="1" ItemsSource="{Binding PendudukList}" SelectedItem="{Binding SelectedPenduduk}" AutoGenerateColumns="False" IsReadOnly="True" GridLinesVisibility="Horizontal" HeadersVisibility="Column">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="NIK" Binding="{Binding Nik}"/>
+                    <DataGridTextColumn Header="No. KK" Binding="{Binding Kk}"/>
+                    <DataGridTextColumn Header="Nama Lengkap" Binding="{Binding Nama}"/>
+                    <DataGridTextColumn Header="L/P" Binding="{Binding Jenis_Kelamin}"/>
+                    <DataGridTextColumn Header="Pekerjaan" Binding="{Binding Pekerjaan}"/>
+                    <DataGridTextColumn Header="Alamat" Binding="{Binding Alamat}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </Border>
+</UserControl>

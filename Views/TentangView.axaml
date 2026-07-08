@@ -1,0 +1,35 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:SIDESA.Net.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="SIDESA.Net.Views.TentangView"
+             x:DataType="vm:TentangViewModel">
+
+    <Grid>
+        <Border Background="White" CornerRadius="10" Margin="40" Padding="40" BoxShadow="0 4 10 0 #10000000" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <StackPanel Spacing="15" MaxWidth="500">
+                <TextBlock Text="SI-DESAKU" FontSize="36" FontWeight="ExtraBold" Foreground="#0f172a" HorizontalAlignment="Center"/>
+                <TextBlock Text="Sistem Informasi Desa Mandiri" FontSize="16" Foreground="#64748b" HorizontalAlignment="Center" Margin="0,-10,0,10"/>
+                
+                <TextBlock Text="{Binding AppVersion}" FontWeight="SemiBold" Foreground="#3b82f6" HorizontalAlignment="Center"/>
+                
+                <TextBlock Text="{Binding Description}" TextWrapping="Wrap" TextAlignment="Center" Foreground="#334155" Margin="0,15"/>
+                
+                <Separator Background="#e2e8f0" Margin="0,10"/>
+                
+                <TextBlock Text="{Binding DeveloperInfo}" FontStyle="Italic" Foreground="#94a3b8" HorizontalAlignment="Center"/>
+                
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10" Margin="0,20,0,0">
+                    <Border Background="#f8fafc" BorderBrush="#e2e8f0" BorderThickness="1" CornerRadius="5" Padding="10">
+                        <TextBlock Text="✓ 100% Offline" Foreground="#10b981" FontWeight="Bold"/>
+                    </Border>
+                    <Border Background="#f8fafc" BorderBrush="#e2e8f0" BorderThickness="1" CornerRadius="5" Padding="10">
+                        <TextBlock Text="✓ Cepat &amp; Aman" Foreground="#10b981" FontWeight="Bold"/>
+                    </Border>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

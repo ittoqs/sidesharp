@@ -1,0 +1,57 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:SIDESA.Net.ViewModels"
+        xmlns:views="using:SIDESA.Net.Views"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="SIDESA.Net.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="SI-DESAKU"
+        WindowStartupLocation="CenterScreen"
+        Width="1024" Height="768">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+    <Grid>
+        <!-- Main Application Layout -->
+        <Grid ColumnDefinitions="250, *" IsVisible="{Binding IsLoggedIn}">
+            <!-- Sidebar -->
+            <Border Grid.Column="0" Background="#f8fafc" BorderBrush="#e2e8f0" BorderThickness="0,0,1,0">
+                <StackPanel Margin="0,30,0,0">
+                    <TextBlock Text="SI-DESAKU" FontSize="22" FontWeight="Bold" HorizontalAlignment="Center" Foreground="#0f172a"/>
+                    <TextBlock Text="ADMINISTRASI SURAT DESA" FontSize="12" HorizontalAlignment="Center" Foreground="#64748b" Margin="0,0,0,30"/>
+                    
+                    <Button Content="DASHBOARD" Command="{Binding NavigateCommand}" CommandParameter="Dashboard" HorizontalAlignment="Stretch" Margin="15,5" Background="Transparent" Foreground="#334155" FontWeight="SemiBold"/>
+                    <Button Content="DATA PENDUDUK" Command="{Binding NavigateCommand}" CommandParameter="Penduduk" HorizontalAlignment="Stretch" Margin="15,5" Background="Transparent" Foreground="#334155" FontWeight="SemiBold"/>
+                    <Button Content="TEMPLATE SURAT" Command="{Binding NavigateCommand}" CommandParameter="Template" HorizontalAlignment="Stretch" Margin="15,5" Background="Transparent" Foreground="#334155" FontWeight="SemiBold"/>
+                    <Button Content="BUAT SURAT" Command="{Binding NavigateCommand}" CommandParameter="BuatSurat" HorizontalAlignment="Stretch" Margin="15,5" Background="Transparent" Foreground="#334155" FontWeight="SemiBold"/>
+                    <Button Content="RIWAYAT SURAT" Command="{Binding NavigateCommand}" CommandParameter="Riwayat" HorizontalAlignment="Stretch" Margin="15,5" Background="Transparent" Foreground="#334155" FontWeight="SemiBold"/>
+                    <Button Content="BACKUP DATA" Command="{Binding NavigateCommand}" CommandParameter="Backup" HorizontalAlignment="Stretch" Margin="15,5" Background="Transparent" Foreground="#334155" FontWeight="SemiBold"/>
+                    <Button Content="PENGATURAN" Command="{Binding NavigateCommand}" CommandParameter="Pengaturan" HorizontalAlignment="Stretch" Margin="15,5" Background="Transparent" Foreground="#334155" FontWeight="SemiBold"/>
+                    <Button Content="TENTANG" Command="{Binding NavigateCommand}" CommandParameter="Tentang" HorizontalAlignment="Stretch" Margin="15,5" Background="Transparent" Foreground="#334155" FontWeight="SemiBold"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Main Content -->
+            <Grid Grid.Column="1" RowDefinitions="Auto, *">
+                <!-- Header -->
+                <Border Grid.Row="0" Background="White" BorderBrush="#e2e8f0" BorderThickness="0,0,0,1" Padding="20">
+                    <Grid ColumnDefinitions="Auto, *, Auto">
+                        <TextBlock Grid.Column="0" Text="{Binding CurrentRouteName}" FontSize="18" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Column="2" Text="{Binding UserSessionInfo}" FontSize="14" Foreground="#64748b" VerticalAlignment="Center"/>
+                    </Grid>
+                </Border>
+
+                <!-- Page Content -->
+                <ContentControl Grid.Row="1" Content="{Binding CurrentPage}" Background="#f1f5f9"/>
+            </Grid>
+        </Grid>
+
+        <!-- Login Overlay -->
+        <views:LoginView DataContext="{Binding LoginVm}" IsVisible="{Binding !IsLoggedIn}"/>
+    </Grid>
+</Window>

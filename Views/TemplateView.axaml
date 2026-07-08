@@ -1,0 +1,40 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:SIDESA.Net.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="SIDESA.Net.Views.TemplateView"
+             x:DataType="vm:TemplateViewModel">
+
+    <Grid RowDefinitions="Auto, *">
+        <StackPanel Grid.Row="0" Margin="20" Orientation="Horizontal" Spacing="10">
+            <TextBlock Text="Manajemen Template Surat" FontSize="20" FontWeight="Bold" Foreground="#334155" VerticalAlignment="Center"/>
+            <Button Content="Refresh" Command="{Binding LoadDataCommand}" Background="#e2e8f0" Foreground="#334155" Padding="15,5" CornerRadius="5"/>
+        </StackPanel>
+
+        <Border Grid.Row="1" Background="White" CornerRadius="10" Margin="20,0,20,20" Padding="10" BoxShadow="0 2 5 0 #10000000">
+            <DataGrid ItemsSource="{Binding Templates}" SelectedItem="{Binding SelectedTemplate}" 
+                      AutoGenerateColumns="False" IsReadOnly="True" GridLinesVisibility="All"
+                      BorderThickness="1" BorderBrush="#e2e8f0">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="Auto" />
+                    <DataGridTextColumn Header="Nama Template" Binding="{Binding Nama_Template}" Width="*" />
+                    <DataGridTextColumn Header="Jenis Surat" Binding="{Binding Jenis_Surat}" Width="*" />
+                    <DataGridTextColumn Header="File" Binding="{Binding File_Template}" Width="*" />
+                    <DataGridTextColumn Header="Aktif" Binding="{Binding Aktif}" Width="Auto" />
+                    <DataGridTemplateColumn Header="Aksi" Width="Auto">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" Spacing="5" Margin="5">
+                                    <Button Content="Toggle" Command="{Binding $parent[UserControl].((vm:TemplateViewModel)DataContext).ToggleStatusCommand}" CommandParameter="{Binding}" Background="#f59e0b" Foreground="White" Padding="10,5" CornerRadius="3"/>
+                                    <Button Content="Hapus" Command="{Binding $parent[UserControl].((vm:TemplateViewModel)DataContext).DeleteTemplateCommand}" CommandParameter="{Binding}" Background="#ef4444" Foreground="White" Padding="10,5" CornerRadius="3"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+    </Grid>
+</UserControl>

@@ -1,0 +1,44 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:SIDESA.Net.ViewModels"
+             x:Class="SIDESA.Net.Views.SuratView"
+             x:DataType="vm:SuratViewModel">
+
+    <Border Background="White" CornerRadius="8" Padding="30" Margin="20" BoxShadow="0 4 10 0 #1A000000">
+        <StackPanel Spacing="20">
+            <TextBlock Text="Formulir Pembuatan Surat" FontSize="20" FontWeight="Bold"/>
+
+            <Grid ColumnDefinitions="*, *" RowDefinitions="Auto, Auto" Margin="0,20,0,0">
+                <StackPanel Grid.Row="0" Grid.Column="0" Margin="0,0,10,20">
+                    <TextBlock Text="Pilih Penduduk (Pemohon)" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                    <ComboBox ItemsSource="{Binding PendudukList}" SelectedItem="{Binding SelectedPenduduk}" HorizontalAlignment="Stretch">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Nama}"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </StackPanel>
+
+                <StackPanel Grid.Row="0" Grid.Column="1" Margin="10,0,0,20">
+                    <TextBlock Text="Jenis Surat" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                    <ComboBox ItemsSource="{Binding TemplateList}" SelectedItem="{Binding SelectedTemplate}" HorizontalAlignment="Stretch">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Nama_Template}"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </StackPanel>
+
+                <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,0,10,0">
+                    <TextBlock Text="Nomor Surat" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                    <TextBox Text="{Binding NomorSurat}" />
+                </StackPanel>
+            </Grid>
+
+            <Button Content="Generate Surat (DOCX &amp; PDF)" Command="{Binding BuatSuratCommand}" Background="#10b981" Foreground="White" FontWeight="Bold" FontSize="16" Padding="20,10" HorizontalAlignment="Center" Margin="0,30,0,0" CornerRadius="8"/>
+        </StackPanel>
+    </Border>
+
+</UserControl>
