@@ -27,14 +27,14 @@ public static class Database
 
     public static string HashPassword(string password)
     {
-        using var sha256 = SHA256.Create();
-        var bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
-        var builder = new StringBuilder();
-        foreach (var b in bytes)
+        byte[] salt = new byte[16];
+        using (var rng = RandomNumberGenerator.Create())
         {
-            builder.Append(b.ToString("x2"));
+            rng.GetBytes(salt);
         }
-        return builder.ToString();
+        using var pbkdf2 = new Rfc2898DeriveBytes(password, salt, 100000, HashAlgorithmName.SHA256);
+        byte[] hash = pbkdf2.GetBytes(32);
+        return $"{Convert.ToBase64String(salt)}:{Convert.ToBase64String(hash)}";
     }
 
     public static void InitDb()
@@ -158,6 +158,14 @@ public static class Database
             new { Limit = limit, Offset = offset });
     }
 
+    public static async Task<IEnumerable<Penduduk>> GetAllPendudukAsync(int limit = 100, int offset = 0)
+    {
+        using var connection = new SqliteConnection(GetConnectionString());
+        return await connection.QueryAsync<Penduduk>(
+            "SELECT * FROM penduduk ORDER BY nama ASC LIMIT @Limit OFFSET @Offset",
+            new { Limit = limit, Offset = offset });
+    }
+
     public static (bool Success, string Message) AddPenduduk(Penduduk data)
     {
         using var connection = new SqliteConnection(GetConnectionString());
@@ -222,6 +230,17 @@ public static class Database
         using var connection = new SqliteConnection(GetConnectionString());
         var searchStr = $"%{query}%";
         return connection.Query<Penduduk>(@"
+            SELECT * FROM penduduk
+            WHERE nik LIKE @Query OR kk LIKE @Query OR nama LIKE @Query
+            ORDER BY nama ASC LIMIT @Limit
+            ", new { Query = searchStr, Limit = limit });
+    }
+
+    public static async Task<IEnumerable<Penduduk>> SearchPendudukAsync(string query, int limit = 100)
+    {
+        using var connection = new SqliteConnection(GetConnectionString());
+        var searchStr = $"%{query}%";
+        return await connection.QueryAsync<Penduduk>(@"
             SELECT * FROM penduduk
             WHERE nik LIKE @Query OR kk LIKE @Query OR nama LIKE @Query
             ORDER BY nama ASC LIMIT @Limit
@@ -322,9 +341,49 @@ public static class Database
     public static User? AuthenticateUser(string username, string password)
     {
         using var connection = new SqliteConnection(GetConnectionString());
-        return connection.QueryFirstOrDefault<User>(
-            "SELECT id, username, role FROM user WHERE username = @Username AND password_hash = @PasswordHash",
-            new { Username = username, PasswordHash = HashPassword(password) });
+        var userRecord = connection.QueryFirstOrDefault(
+            "SELECT id, username, password_hash, role FROM user WHERE username = @Username",
+            new { Username = username });
+
+        if (userRecord == null) return null;
+
+        string storedHash = userRecord.password_hash;
+        bool passwordMatches = false;
+
+        if (storedHash.Contains(':'))
+        {
+            var parts = storedHash.Split(':');
+            if (parts.Length == 2)
+            {
+                byte[] salt = Convert.FromBase64String(parts[0]);
+                byte[] expectedHash = Convert.FromBase64String(parts[1]);
+
+                using var pbkdf2 = new Rfc2898DeriveBytes(password, salt, 100000, HashAlgorithmName.SHA256);
+                byte[] computedHash = pbkdf2.GetBytes(32);
+
+                passwordMatches = CryptographicOperations.FixedTimeEquals(computedHash, expectedHash);
+            }
+        }
+        else
+        {
+            // Fallback for old SHA-256
+            using var sha256 = SHA256.Create();
+            var bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+            var builder = new StringBuilder();
+            foreach (var b in bytes)
+            {
+                builder.Append(b.ToString("x2"));
+            }
+            string oldHash = builder.ToString();
+            passwordMatches = (oldHash == storedHash);
+        }
+
+        if (passwordMatches)
+        {
+            return new User { Id = (int)userRecord.id, Username = userRecord.username, Role = userRecord.role };
+        }
+
+        return null;
     }
 
     // --- Configuration Helper ---

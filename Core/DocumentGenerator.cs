@@ -52,10 +52,11 @@ public static class DocumentGenerator
 
     public static (string? OutputPath, string? ErrorMessage) GenerateDocument(string templateFilename, Database.Penduduk resident, string letterNumber)
     {
-        var templatePath = Path.Combine(TemplateDir, templateFilename);
+        var safeTemplateFilename = Path.GetFileName(templateFilename);
+        var templatePath = Path.Combine(TemplateDir, safeTemplateFilename);
         if (!File.Exists(templatePath))
         {
-            return (null, $"Berkas template '{templateFilename}' tidak ditemukan.");
+            return (null, $"Berkas template '{safeTemplateFilename}' tidak ditemukan.");
         }
 
         var config = Database.LoadConfig();
