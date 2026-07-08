@@ -1,2 +1,2 @@
 # sidesharp
-Seandainya kamu punya saya terbang terbanglah kamu
+Seandainya kamu punya sayap terbang terbanglah kamu
