@@ -52,6 +52,8 @@
         </Grid>
 
         <!-- Login Overlay -->
-        <views:LoginView DataContext="{Binding LoginVm}" IsVisible="{Binding !IsLoggedIn}"/>
+        <Grid IsVisible="{Binding !IsLoggedIn}">
+            <views:LoginView DataContext="{Binding LoginVm}"/>
+        </Grid>
     </Grid>
 </Window>

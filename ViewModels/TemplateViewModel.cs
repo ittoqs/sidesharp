@@ -13,6 +13,7 @@ public partial class TemplateViewModel : ViewModelBase
     [ObservableProperty]
     private Database.Template? _selectedTemplate;
 
+    [RelayCommand]
     public void LoadData()
     {
         Templates.Clear();
