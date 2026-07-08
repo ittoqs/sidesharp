@@ -18,45 +18,59 @@ public partial class PendudukViewModel : ViewModelBase
 
     public PendudukViewModel()
     {
-        RefreshList();
+        // Fire and forget
+        _ = RefreshListAsync();
     }
 
     [RelayCommand]
-    private void Search()
+    private async System.Threading.Tasks.Task SearchAsync()
     {
-        RefreshList();
+        await RefreshListAsync();
     }
 
     public void RefreshList()
     {
-        PendudukList.Clear();
+        _ = RefreshListAsync();
+    }
+
+    public async System.Threading.Tasks.Task RefreshListAsync()
+    {
         var data = string.IsNullOrWhiteSpace(SearchQuery) 
-            ? Database.GetAllPenduduk() 
-            : Database.SearchPenduduk(SearchQuery);
+            ? await Database.GetAllPendudukAsync()
+            : await Database.SearchPendudukAsync(SearchQuery);
             
-        foreach (var item in data)
+        // Assuming Avalonia handles ObservableCollection on UI Thread properly if modified entirely
+        // Alternatively we can use Dispatcher, but doing clear & add works if dispatched
+        Avalonia.Threading.Dispatcher.UIThread.Post(() =>
         {
-            PendudukList.Add(item);
-        }
+            PendudukList.Clear();
+            foreach (var item in data)
+            {
+                PendudukList.Add(item);
+            }
+        });
     }
 
     [RelayCommand]
-    private void AddNew()
+    private async System.Threading.Tasks.Task AddNewAsync()
     {
         // TODO: Show Add Dialog
         // For demonstration we'll just add a dummy to DB to test DataGrid updating
         var dummy = new Database.Penduduk { Nik = System.DateTime.Now.Ticks.ToString().Substring(0,16), Nama = "Baru Tambah", Kk = "1234567890123456" };
-        Database.AddPenduduk(dummy);
-        RefreshList();
+
+        // Execute synchronously in thread pool to prevent blocking if needed, but since it's just local sqlite, it's fast
+        await System.Threading.Tasks.Task.Run(() => Database.AddPenduduk(dummy));
+
+        await RefreshListAsync();
     }
 
     [RelayCommand]
-    private void DeleteSelected()
+    private async System.Threading.Tasks.Task DeleteSelectedAsync()
     {
         if (SelectedPenduduk != null)
         {
-            Database.DeletePenduduk(SelectedPenduduk.Id);
-            RefreshList();
+            await System.Threading.Tasks.Task.Run(() => Database.DeletePenduduk(SelectedPenduduk.Id));
+            await RefreshListAsync();
         }
     }
 }
