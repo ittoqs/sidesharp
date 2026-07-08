@@ -16,6 +16,7 @@ public partial class RiwayatViewModel : ViewModelBase
     [ObservableProperty]
     private Database.RiwayatSurat? _selectedRiwayat;
 
+    [RelayCommand]
     public void LoadData()
     {
         RiwayatList.Clear();

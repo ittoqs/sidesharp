@@ -12,28 +12,28 @@
             <!-- Cards Row -->
             <UniformGrid Columns="4" Margin="0,0,0,20">
                 <!-- Card 1 -->
-                <Border Background="White" CornerRadius="8" Padding="20" Margin="10" BoxShadow="0 4 10 0 #1A000000" BorderLeftBrush="#3b82f6" BorderThickness="5,0,0,0">
+                <Border Background="White" CornerRadius="8" Padding="20" Margin="10" BoxShadow="0 4 10 0 #1A000000" BorderBrush="#3b82f6" BorderThickness="5,0,0,0">
                     <StackPanel>
                         <TextBlock Text="TOTAL PENDUDUK" FontSize="12" Foreground="Gray" FontWeight="Bold"/>
                         <TextBlock Text="{Binding TotalPenduduk}" FontSize="24" FontWeight="Bold" Margin="0,10,0,0"/>
                     </StackPanel>
                 </Border>
                 <!-- Card 2 -->
-                <Border Background="White" CornerRadius="8" Padding="20" Margin="10" BoxShadow="0 4 10 0 #1A000000" BorderLeftBrush="#10b981" BorderThickness="5,0,0,0">
+                <Border Background="White" CornerRadius="8" Padding="20" Margin="10" BoxShadow="0 4 10 0 #1A000000" BorderBrush="#10b981" BorderThickness="5,0,0,0">
                     <StackPanel>
                         <TextBlock Text="SURAT HARI INI" FontSize="12" Foreground="Gray" FontWeight="Bold"/>
                         <TextBlock Text="{Binding SuratHariIni}" FontSize="24" FontWeight="Bold" Margin="0,10,0,0"/>
                     </StackPanel>
                 </Border>
                 <!-- Card 3 -->
-                <Border Background="White" CornerRadius="8" Padding="20" Margin="10" BoxShadow="0 4 10 0 #1A000000" BorderLeftBrush="#f59e0b" BorderThickness="5,0,0,0">
+                <Border Background="White" CornerRadius="8" Padding="20" Margin="10" BoxShadow="0 4 10 0 #1A000000" BorderBrush="#f59e0b" BorderThickness="5,0,0,0">
                     <StackPanel>
                         <TextBlock Text="SURAT BULAN INI" FontSize="12" Foreground="Gray" FontWeight="Bold"/>
                         <TextBlock Text="{Binding SuratBulanIni}" FontSize="24" FontWeight="Bold" Margin="0,10,0,0"/>
                     </StackPanel>
                 </Border>
                 <!-- Card 4 -->
-                <Border Background="White" CornerRadius="8" Padding="20" Margin="10" BoxShadow="0 4 10 0 #1A000000" BorderLeftBrush="#8b5cf6" BorderThickness="5,0,0,0">
+                <Border Background="White" CornerRadius="8" Padding="20" Margin="10" BoxShadow="0 4 10 0 #1A000000" BorderBrush="#8b5cf6" BorderThickness="5,0,0,0">
                     <StackPanel>
                         <TextBlock Text="TEMPLATE AKTIF" FontSize="12" Foreground="Gray" FontWeight="Bold"/>
                         <TextBlock Text="{Binding TemplateAktif}" FontSize="24" FontWeight="Bold" Margin="0,10,0,0"/>
