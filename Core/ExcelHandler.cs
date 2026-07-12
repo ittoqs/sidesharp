@@ -201,11 +201,11 @@ public static class ExcelHandler
     {
         try
         {
-            string templatePath = Path.Combine("templates", "TemplateDataPenduduk.xlsx");
+            string templatePath = Path.Combine("templates", "xls", "TemplateDataPenduduk.xlsx");
 
             if (!File.Exists(templatePath))
             {
-                return (false, "File template sumber (templates/TemplateDataPenduduk.xlsx) tidak ditemukan.");
+                return (false, "File template sumber (templates/xls/TemplateDataPenduduk.xlsx) tidak ditemukan.");
             }
 
             File.Copy(templatePath, outputPath, overwrite: true);

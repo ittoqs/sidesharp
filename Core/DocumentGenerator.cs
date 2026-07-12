@@ -12,7 +12,7 @@ namespace SIDESA.Net.Core;
 
 public static class DocumentGenerator
 {
-    private static readonly string TemplateDir = "templates";
+    private static readonly string TemplateDir = Path.Combine("templates", "doc");
 
     public static void BootstrapTemplates()
     {
@@ -21,11 +21,17 @@ public static class DocumentGenerator
         {
             Directory.CreateDirectory(TemplateDir);
         }
+
+        string xlsTemplateDir = Path.Combine("templates", "xls");
+        if (!Directory.Exists(xlsTemplateDir))
+        {
+            Directory.CreateDirectory(xlsTemplateDir);
+        }
         
         // In C#, generating complex docx from scratch with OpenXml is verbose.
         // For migration purposes, if the templates from the Python app exist in the same directory,
         // we can just copy them, or rely on the user having run the Python app once.
-        // We will assume the templates "Domisili.docx", "SKTM.docx", etc. are placed in "templates/".
+        // We will assume the templates "Domisili.docx", "SKTM.docx", etc. are placed in "templates/doc".
     }
 
     private static void ReplaceTextInElement(OpenXmlElement element, Dictionary<string, string> placeholders)
