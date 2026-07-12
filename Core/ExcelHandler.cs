@@ -201,32 +201,19 @@ public static class ExcelHandler
     {
         try
         {
-            using var wb = new XLWorkbook();
-            var sheet = wb.Worksheets.Add("Data Penduduk");
+            string templatePath = Path.Combine("templates", "TemplateDataPenduduk.xlsx");
 
-            var headers = new[] {
-                "NIK (*)", "No. KK", "Nama (*)", "Tempat Lahir", "Tgl Lahir (YYYY-MM-DD)",
-                "L/P", "Agama", "Status Kawin", "Pekerjaan", "Alamat",
-                "RT", "RW", "Desa/Kelurahan", "Kecamatan", "Kabupaten/Kota", 
-                "Provinsi", "Kewarganegaraan"
-            };
-
-            for (int i = 0; i < headers.Length; i++)
+            if (!File.Exists(templatePath))
             {
-                var cell = sheet.Cell(1, i + 1);
-                cell.Value = headers[i];
-                cell.Style.Font.Bold = true;
-                cell.Style.Font.FontColor = XLColor.White;
-                cell.Style.Fill.BackgroundColor = XLColor.FromHtml("#1E3A8A");
-                sheet.Column(i + 1).Width = 20;
+                return (false, "File template sumber (templates/TemplateDataPenduduk.xlsx) tidak ditemukan.");
             }
 
-            wb.SaveAs(outputPath);
+            File.Copy(templatePath, outputPath, overwrite: true);
             return (true, "Template berhasil dibuat.");
         }
         catch (Exception ex)
         {
-            return (false, $"Gagal membuat template: {ex.Message}");
+            return (false, $"Gagal menyalin template: {ex.Message}");
         }
     }
 }
