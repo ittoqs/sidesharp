@@ -12,7 +12,7 @@ namespace SIDESA.Net.Core;
 
 public static class DocumentGenerator
 {
-    private static readonly string TemplateDir = Path.Combine("templates", "doc");
+    private static readonly string TemplateDir = Path.Combine(AppContext.BaseDirectory, "templates", "doc");
 
     public static void BootstrapTemplates()
     {
@@ -22,7 +22,7 @@ public static class DocumentGenerator
             Directory.CreateDirectory(TemplateDir);
         }
 
-        string xlsTemplateDir = Path.Combine("templates", "xls");
+        string xlsTemplateDir = Path.Combine(AppContext.BaseDirectory, "templates", "xls");
         if (!Directory.Exists(xlsTemplateDir))
         {
             Directory.CreateDirectory(xlsTemplateDir);
