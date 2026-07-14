@@ -201,7 +201,7 @@ public static class ExcelHandler
     {
         try
         {
-            string templatePath = Path.Combine("templates", "xls", "TemplateDataPenduduk.xlsx");
+            string templatePath = Path.Combine(AppContext.BaseDirectory, "templates", "xls", "TemplateDataPenduduk.xlsx");
 
             if (!File.Exists(templatePath))
             {
